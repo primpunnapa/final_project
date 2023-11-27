@@ -1,30 +1,18 @@
 # try wrapping the code below that reads a persons.csv file in a class and make it more general such that it can read in any csv file
 
-
 import csv, os
 
 __location__ = os.path.realpath(
     os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
-persons = []
-with open(os.path.join(__location__, 'persons.csv')) as f:
-    rows = csv.DictReader(f)
-    for r in rows:
-        persons.append(dict(r))
-print(persons)
+def read_csv(file_name):
+    file_list = []
+    with open(os.path.join(__location__, file_name)) as f:
+        rows = csv.DictReader(f)
+        for r in rows:
+            file_list.append(dict(r))
 
-import csv, os
-
-__location__ = os.path.realpath(
-    os.path.join(os.getcwd(), os.path.dirname(__file__)))
-
-login_list = []
-with open(os.path.join(__location__, 'login.csv')) as f:
-    rows = csv.DictReader(f)
-    for r in rows:
-        login_list.append(dict(r))
-print(login_list)
-
+    return file_list
 
 # add in code for a Database class
 class Database:
@@ -39,6 +27,11 @@ class Database:
             if table.table_name == table_name:
                 return table
         return None
+
+    def get_head(self, table_name):
+        for table in self.database:
+            if table.table_name == table_name:
+                return table[0].keys()
 
 # add in code for a Table class
 
@@ -71,9 +64,20 @@ class Table:
         return self.table_name + ':' + str(self.table)
 
 
+# still in process
+# def create_file(file_name, Database, head):
+#     my_file = open(f'{file_name}.csv', 'w')
+#     writer = csv.writer(my_file)
+#     writer.writerow(head)
+#     for dictionary in Database.search(file_name).table:
+#         writer.writerow(dictionary.values(file_name))
+#     my_file.close()
+    # print(my_file.read())
+
 # modify the code in the Table class so that it supports the insert operation where an entry can be added to a list of dictionary
 
 # modify the code in the Table class so that it supports the update operation where an entry's value associated with a key can be updated
 
 # test = Table('person', persons)
 # test.update('ID', '9898118', {'fist': 'proudTest'})
+
