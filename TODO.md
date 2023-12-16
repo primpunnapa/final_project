@@ -40,9 +40,25 @@ Admin
     - Adjust the data (ex. change the name, change password)
    
 
+**status**
+1. Pending members
+    if member = 2 --> Still in progress
+2. Submit --> leader submit the project
+3. Approve --> faculties approve projects (after leader submit the project)
+    if faculties approve >= 2 --> Advisor will change status to completed
+4. Completed --> advisor does it
+5. Delete --> leader want to delete project --> admin will delete it.
+6. Either 'Pending members' or 'Still in progress' --> Advisor can check
+7. Faculties can evaluate every project except the one that they supervis.
 
+**อย่าลืมหาทางเก็บคอมเมนต์กับapprove --> completed
 
+*member leave the project --> member_pending[Response] == 'Left' (projectตัวเอง)
+                            --> admin check --> เอาเมมออก 
+                            --> member_pending[Response] == None (project อื่น)
 
-
+***อย่าลืมดัก projectid ห้ามเหมือนกัน --> completed
+***update file --> มีไฟล์ = update data
+                --> ไม่มีไฟล์ = create ใหม่
 
 

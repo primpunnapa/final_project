@@ -101,16 +101,6 @@ class Table:
         return self.table_name + ':' + str(self.table)
 
 
-# still in process
-# def create_file(file_name, Database, head):
-#     my_file = open(f'{file_name}.csv', 'w')
-#     writer = csv.writer(my_file)
-#     writer.writerow(head)
-#     for dictionary in Database.search(file_name).table:
-#         writer.writerow(dictionary.values(file_name))
-#     my_file.close()
-    # print(my_file.read())
-
 # modify the code in the Table class so that it supports the insert operation where an entry can be added to a list of dictionary
 
 # modify the code in the Table class so that it supports the update operation where an entry's value associated with a key can be updated
