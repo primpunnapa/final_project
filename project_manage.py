@@ -1,25 +1,27 @@
 import csv
 import sys
+import os
+import random
+from database import Database, Table, read_csv
 from datetime import datetime
 current_time = datetime.now()
 current_date = current_time.date()
-import random
-from database import Database, Table, read_csv
+
 my_DB = Database()
 
 
 def initializing():
     person = read_csv('persons.csv')
     logins = read_csv('login.csv')
-    # project = read_csv('project_table.csv')
-    # advisor = read_csv('Advisor_pending_request.csv')
-    # member = read_csv('Member_pending_request.csv')
+    project = read_csv('project_table.csv')
+    advisor = read_csv('Advisor_pending_request.csv')
+    member = read_csv('Member_pending_request.csv')
 
     persons_table = Table('persons', person)
     logins_table = Table('login', logins)
-    projects_table = Table('project', [])
-    advisor_table = Table('Advisor_pending_request', [])
-    member_table = Table('Member_pending_request', [])
+    projects_table = Table('project', project)
+    advisor_table = Table('Advisor_pending_request', advisor)
+    member_table = Table('Member_pending_request', member)
     my_DB.insert(persons_table)
     my_DB.insert(logins_table)
     my_DB.insert(projects_table)
@@ -71,7 +73,8 @@ class Student:
                     print('No project request!\n')
                 else:
                     for item2 in member_pending.table:
-                        pro_fil = projects.filter(lambda x: x['Status'] == 'Pending members' and x['ProjectID'] == item2['ProjectID']).table
+                        pro_fil = projects.filter(lambda x: x['Status'] == 'Pending members'
+                                                            and x['ProjectID'] == item2['ProjectID']).table
                         if item2['to_be_member'] == self.person_id and len(pro_fil) != 0:
                             print(f"Project ID : {item2['ProjectID']} ({pro_fil[0]['Title']})")
                     ans = int(input('Please enter project ID which you want to join: '))
@@ -88,11 +91,13 @@ class Student:
                             is_exist = True
 
                     if is_exist:
-                        member_acc = member_pending.filter(lambda x: x['ProjectID'] == ans and x['to_be_member'] == self.person_id).table
+                        member_acc = member_pending.filter(lambda x: x['ProjectID'] == ans
+                                                                     and x['to_be_member'] == self.person_id).table
                         member_acc[0]['Response'] = 'accepted'
                         member_acc[0]['Response_date'] = current_date.__str__()
 
-                        member_deny = member_pending.filter(lambda x: x['ProjectID'] != ans and x['to_be_member'] == self.person_id).table
+                        member_deny = member_pending.filter(lambda x: x['ProjectID'] != ans
+                                                                      and x['to_be_member'] == self.person_id).table
                         for mem_d in member_deny:
                             mem_d['Response'] = 'deny'
                             mem_d['Response_date'] = current_date.__str__()
@@ -163,6 +168,7 @@ class Student:
                 return options
             else:
                 print('Invalid options, Try again!')
+
     def lead_menu(self):
         print('---Role : Leader---')
         logins = my_DB.search('login')
@@ -334,8 +340,10 @@ class Faculty:
                     print('No project request!\n')
                 else:
                     for item2 in advisor_pending.table:
-                        pro_fil = projects.filter(lambda x: (x['Status'] == 'Pending members' or x['Status'] == 'Still in progress')
-                                                  and x['ProjectID'] == item2['ProjectID'] and x['Advisor'] == 'Waiting').table
+                        pro_fil = projects.filter(lambda x: (x['Status'] == 'Pending members'
+                                                             or x['Status'] == 'Still in progress')
+                                                            and x['ProjectID'] == item2['ProjectID']
+                                                            and x['Advisor'] == 'Waiting').table
                         if item2['to_be_advisor'] == self.person_id and len(pro_fil) != 0:
                             print(f"Project ID: {item2['ProjectID']} ({pro_fil[0]['Title']})")
                     ans = int(input('Please enter project ID which you want to supervise: '))
@@ -369,7 +377,6 @@ class Faculty:
                         print('Invalid Project ID')
             elif option == 0:
                 for_login()
-
 
     def option_advisor(self):
         while True:
@@ -435,6 +442,7 @@ class Faculty:
             elif options == 0:
                 for_login()
 
+
 class Admin:
     def __init__(self, person_id):
         self.person_id = person_id
@@ -446,7 +454,7 @@ class Admin:
             print("0. Log-out")
             print("1. Delete project")
             print("2. Add person")
-            print("3. Get CSV file and exit")
+            print("3. Update CSV file and exit")
             options = int(input('select options: '))
             if options in (0, 1, 2, 3):
                 return options
@@ -465,7 +473,9 @@ class Admin:
             if options == 1:
                 delete_pro = projects.filter(lambda x: x['Status'] == "Delete").table
                 for i in range(len(delete_pro)):
-                    delete_element = logins.filter(lambda x: x['ID'] == delete_pro[i]['Lead'] or x['ID'] == delete_pro[i]['Member1'] or x['ID'] == delete_pro[i]['Member2']).table
+                    delete_element = logins.filter(lambda x: x['ID'] == delete_pro[i]['Lead']
+                                                             or x['ID'] == delete_pro[i]['Member1']
+                                                             or x['ID'] == delete_pro[i]['Member2']).table
                     delete_adv = logins.filter(lambda x: x['ID'] == delete_pro[i]['Advisor']).table
                     for element in delete_element:
                         logins.update("ID", element['ID'], {'role': 'student'})
@@ -497,64 +507,36 @@ class Admin:
                     "type": role
                 })
                 print(f"You added {fname} {lname} role: {role} in database.")
+
             elif options == 3:
-                print("You are going to seeing the action in progress\n")
-                print("The content of 'Project_table' file is:")
-                # create_file('Project_table', projects.table)
-                print("The content of 'Advisor_pending_request' file is:")
-                # create_file('Advisor_pending_request', advisor_pending.table)
-                print("The content of 'Member_pending_request' file is:")
-                # create_file('Member_pending_request', member_pending.table)
-                sys.exit()
+                update_file('project_table', projects.table)
+                update_file('Advisor_pending_request', advisor_pending.table)
+                update_file('Member_pending_request', member_pending.table)
+                update_file('persons', persons.table)
+                update_file('login', logins.table)
+                # sys.exit()
 
             elif options == 0:
                 for_login()
 
-# def update_file(file_name, table):
-#     my_file = open(f'{file_name}.csv', 'w')
-#     writer = csv.writer(my_file)
-#     writer.writerow(table[0].keys())
-#     for dictionary in table:
-#         writer.writerow(dictionary.values())
-#     my_file.close()
-#     myFile = open(f'{file_name}.csv', 'r')
-#     print(myFile.read())
-#     myFile.close()
 
-def test_update(file_name, table):
-    my_file = open(f'{file_name}.csv', "r")
-    reader = csv.DictReader(my_file)
-    print(reader)
-    up_my_file = []
-    for r in reader:
-        print(r)
-        row = table[0].keys()
-        up_my_file.append(row)
-    print(up_my_file)
-    my_file.close()
+def update_file(name, table):
+    if len(table) > 0:
+        header = list(table[0].keys())
+        file_path = f'{name}.csv'
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
-    op = open(f'{file_name}.csv', "w", newline="")
-    headers = table[0].keys()
-    data = csv.DictWriter(op, delimiter=',', fieldnames=headers)
-    data.writerow(dict((heads, heads) for heads in headers))
-    data.writerows(up_my_file)
-
-# define a function called exit
-def exit():
-    pass
-
-# here are things to do in this function:
-   # write out all the tables that have been modified to the corresponding csv files
-   # By now, you know how to read in a csv file and transform it into a list of dictionaries. For this project, you also need to know how to do the reverse, i.e., writing out to a csv file given a list of dictionaries. See the link below for a tutorial on how to do this:
+        my_file = open(file_path, 'w')
+        writer = csv.writer(my_file)
+        writer.writerow(header)
+        for dictionary in table:
+            writer.writerow(dictionary.values())
+        my_file.close()
+        myFile = open(file_path, 'r')
+        myFile.close()
 
 
-
-   # https://www.pythonforbeginners.com/basics/list-of-dictionaries-to-csv-in-python
-
-
-# make calls to the initializing and login functions defined above
-
-initializing()
 def for_login():
     while True:
         val = login()
@@ -579,30 +561,7 @@ def for_login():
         admin = Admin(val[0])
         admin.admin_menu()
 
+
+initializing()
 for_login()
 
-
-# based on the return value for login, activate the code that performs activities according to the role defined for that person_id
-
-    # if val[1] = 'admin':
-        # see and do admin related activities
-
-    # elif val[1] = 'student':
-    #     see and do student related activities
-    #
-    # 1.see pending requests to become members of already created projects(ex. Have 3 projects, expend list of 3 projects ask yes/no
-    #   if yes --> break, if no --> see the others, yes/no ,if deny all = lead)
-    # 2. Member_pending_request table, respond should have both submit and deny
-    # 3. Project table needs to be updated -->
-
-    # elif val[1] = 'member':
-    #     see and do member related activities
-    # elif val[1] = 'lead':
-    #     see and do lead related activities
-    # elif val[1] = 'faculty':
-    #     see and do faculty related activities
-    # elif val[1] = 'advisor':
-    #     see and do advisor related activities
-
-# once everyhthing is done, make a call to the exit function
-exit()
