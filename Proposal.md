@@ -18,7 +18,8 @@
    - The leader is the only one who can delete the project. If he/she decides to delete, the status will be 'delete'.
    - An admin will delete the project from database.
 
-**Conclusion**
+#### **Conclusion**
+
 I have 6 status for Project's status :
 1. Pending member : default status
 2. Still in progress : projects has 2 member
