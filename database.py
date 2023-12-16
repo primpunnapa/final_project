@@ -1,5 +1,3 @@
-# try wrapping the code below that reads a persons.csv file in a class and make it more general such that it can read in any csv file
-
 import csv, os, copy
 
 __location__ = os.path.realpath(
@@ -15,7 +13,7 @@ def read_csv(file_name):
 
     return file_list
 
-# add in code for a Database class
+
 class Database:
     def __init__(self):
         self.database = []
@@ -34,7 +32,6 @@ class Database:
             if table.table_name == table_name:
                 return table[0].keys()
 
-# add in code for a Table class
 
 class Table:
     def __init__(self, table_name, table):
@@ -72,24 +69,6 @@ class Table:
                 filtered_table.table.append(item1)
         return filtered_table
 
-    # def __is_float(self, element):
-    #     if element is None:
-    #         return False
-    #     try:
-    #         float(element)
-    #         return True
-    #     except ValueError:
-    #         return False
-
-    # def aggregate(self, function, aggregation_key):
-    #     temps = []
-    #     for item1 in self.table:
-    #         if self.__is_float(item1[aggregation_key]):
-    #             temps.append(float(item1[aggregation_key]))
-    #         else:
-    #             temps.append(item1[aggregation_key])
-    #     return function(temps)
-
     def update(self, key, val, data):
         # data = {key: val}
         for item in self.table:
@@ -101,10 +80,6 @@ class Table:
         return self.table_name + ':' + str(self.table)
 
 
-# modify the code in the Table class so that it supports the insert operation where an entry can be added to a list of dictionary
-
-# modify the code in the Table class so that it supports the update operation where an entry's value associated with a key can be updated
-
 # test = Table('person', persons)
-# test.update('ID', '9898118', {'fist': 'proudTest'})
+# test.update('ID', '9898118', {'fist': 'primTest'})
 
