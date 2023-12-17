@@ -1,83 +1,81 @@
 # **Roles in final_project**
 
 **Students**
-  - See the requests to become members of already created projects
+  - See the invitation request to become members of already created projects
     - If the projects already have 2 members, the students will not see that projects request.
     - Accept or deny the request:
       - If the student accepts, he or she will be the members of that project.
       - If the student denies, he or she will come back to menu.
-  - Create a project and become a lead.
-    - create the title (the students can change later)
-    - Got the project ID following by the order when you created.
+  - Create a project and become a leader.
+    - Create the title (the leader can change it later)
+    - Get the project ID following by the order when you created.
     - Status of the projects is 'Pending member'
     - Details of the projects is None
   - Log out: Back to log-in process
 
-Lead
-  - See ID's project and username of members and advisor
-  - See the student who have been sent the request to be member and the response
-  - See the faculty who have been sent the request to be advisor and the response
+**Leader**
+  - See project ID and username of members and advisor
+  - See the students to whom the requests to be member have been sent to and their responses
+  - See the faculties to whom the requests to be advisor have been sent to be advisor and their responses
   - See and modify project information
-    - See title of the project: the leader has chances to change the title
-    - See details of the project: the leader has chances to change the details.
+    - See title of the project: the leader can change the title.
+    - See details of the project: the leader can change the details.
     - See comment from the advisor
-    - Exception: If the project's status is 'Submit', no one can change any information of the project
+    - Exception: If the project's status is 'Submit', no one can change any information of the project.
   - See project status
-    - the leader has a chance to submit the project. 
+    - the leader can submit the project. 
   - Delete the project
     - If the leader decided to delete the project, admin will see 'delete' status and delete it
   - Log out: Back to log-in process
-  
 
-Members
-  - See ID's project and username of members and advisor
-  - See the student who have been sent the request from leader to be member and the response
-  - See the faculty who have been sent the request from leader to be advisor and the response
+**Members**
+  - See project ID and username of members and advisor
+  - See the students to whom the requests to be member have been sent to and their responses
+  - See the faculties to whom the requests to be advisor have been sent to be advisor and their responses
   - See project status 
   - See and modify project information
     - See title of the project
-    - See details of the project: the members have chances to change the details.
+    - See details of the project: the members can change the details.
     - See comment from the advisor
-    - Exception: If the project's status is 'Submit', no one can change any information of the project
+    - Exception: If the project's status is 'Submit', no one can change any information of the project.
   - Log out: Back to log-in process
 
-
-Faculty
+**Faculty**
   - Evaluate project
-    - the faculties will see projects id from many projects which is submitted and choose projects id which they want to evaluate.
-    - When they chose the evaluating project, they will see leader's username and project's details
-    - They have chances to approve the project
+    - the faculties will see project ID from many projects which is submitted and choose project ID which they want to evaluate.
+    - When they chose the project to evaluate, they will see leader's username and project's details
+    - They can approve the project
       - if they approve that project, the status will be 'Approve'
   - See request to be an advisor of the project 
     - Accept or deny the request to be an advisor:
-      - If the faculty accept, faculty will be an advising faculty of that project and deny other projects.
+      - If the faculty accept the request, faculty will become an advisor of that project and deny other projects.
       - p.s. one advisor can supervise only one project until his project has completely done. After that he can supervise other project. 
   - Log out: Back to log-in process
   
-Advisor
+**Advisor**
   - Evaluate project
-    - the advisors will see projects id from many projects which is submitted and choose projects id which they want to evaluate.
+    - the advisors will see project ID from many projects which is submitted and choose project ID which they want to evaluate.
     - Exception: the advisors can't evaluate the project which they supervise of.
-    - When they chose the evaluating project, they will see leader's username and project's details
-    - They have chances to approve the project
+    - When they chose the project to evaluate, they will see leader's username and project's details
+    - They can approve the project
       - if they approve that project, the status will be 'Approve'
   - Check the project details which they supervise of.
     - See project information
-        - Project ID, title,  leader, member, details
-        - An advisor has chances to add comments
+        - Project ID, title, leader, member, details
+        - An advisor can add comments
     - Check the project status which they supervise of.
       - See project status
-      - If status is 'Approved', the advisor will have a chance to change project's status to be 'completed'
-      - After the status change to be 'completed', the advisor will come back to be normal faculty and can supervise other projects
+      - If status is 'Approved', the advisor can change project's status to be 'Completed'
+      - After the status is changed to be 'Completed', the advisor will come back to be normal faculty and can supervise other projects
   - Log out: Back to log-in process
 
-Admin
+**Admin**
   - Delete projects
-    - If status of project is 'Delete', the admin will delete that project (the role of leader, member come back to be student and advisor come back to be faculty) 
+    - If status of project is 'Delete', the admin will delete that project (the role of leader and members will become student and advisor will become faculty) 
   - Add person   
     - An admin needs to put first name, last name and role of new person
   - Update CSV file and exit program
-    - p.s. By the end of the day, admin need to select this option to update csv file
+    - p.s. By the end of the day, admin needs to select this option to update csv file
     - The updated csv file including:
       - person.csv
       - login.csv
@@ -85,6 +83,10 @@ Admin
       - Member_pending_request.csv
       - project_table.csv
   - Log out: Back to log-in process
+
+## Final project processes
+
+
   
    
     
