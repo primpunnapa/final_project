@@ -14,7 +14,7 @@
 6. If at least two faculties 'approve' the project, the project's status will be 'approved'.
 7. After the project has been approved by faculties, the advisor of the project will check and change the status to be 'completed'
 8. When the status of project turn to be 'completed', it means the project is completely done.
-9. In case of 'delete' status
+9. In case of 'Delete' status
    - The leader is the only one who can delete the project. If he/she decides to delete the project, the status will be 'delete'.
    - An admin will delete the project from database.
 
