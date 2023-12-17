@@ -82,7 +82,6 @@ class Student:
                                                             and x['ProjectID'] == item2['ProjectID']).table
                         if item2['to_be_member'] == self.person_id and len(pro_fil) != 0:
                             print(f"Project ID : {item2['ProjectID']} ({pro_fil[0]['Title']})")
-                    print("If you don't want to join any project, enter(0)")
                     ans = input('Please enter project ID which you want to join: ')
                     is_exist = False
                     for project in projects.table:
@@ -329,7 +328,6 @@ class Faculty:
                 for k in range(len(eva_pro)):
                     print(f"Project ID: {eva_pro[k]['ProjectID']} ({eva_pro[k]['Title']})")
                 if len(eva_pro) != 0:
-                    print("If you don't want to join any project, enter(0)")
                     eva_id = input("Please enter project ID which you want to evaluate: ")
                     real = projects.filter(lambda x: x['ProjectID'] == eva_id).table
                     if len(real) != 0:
@@ -358,7 +356,6 @@ class Faculty:
                                                             and x['Advisor'] == 'Waiting').table
                         if item2['to_be_advisor'] == self.person_id and len(pro_fil) != 0:
                             print(f"Project ID: {item2['ProjectID']} ({pro_fil[0]['Title']})")
-                    print("If you don't want to supervise any project, enter(0)")
                     ans = input('Please enter project ID which you want to supervise: ')
                     is_exist = False
                     for project in projects.table:
