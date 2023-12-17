@@ -79,7 +79,3 @@ class Table:
     def __str__(self):
         return self.table_name + ':' + str(self.table)
 
-
-# test = Table('person', persons)
-# test.update('ID', '9898118', {'fist': 'primTest'})
-

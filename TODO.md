@@ -84,11 +84,3 @@
       - project_table.csv
   - Log out: Back to log-in process
 
-
-
-  
-   
-    
-
-
-
