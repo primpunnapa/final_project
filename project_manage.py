@@ -43,9 +43,9 @@ class Student:
         self.person_id = person_id
         projects = my_DB.search('project')
         if len(projects.table) == 0:
-            self.project_id = 1
+            self.project_id = str(1)
         else:
-            self.project_id = len(projects.table) + 1
+            self.project_id = str(len(projects.table) + 1)
 
     def options(self):
         while True:
@@ -61,6 +61,7 @@ class Student:
 
     def students_menu(self):
         print('---Role : student---')
+        persons = my_DB.search('persons')
         logins = my_DB.search('login')
         projects = my_DB.search('project')
         member_pending = my_DB.search('Member_pending_request')
@@ -78,7 +79,7 @@ class Student:
                         if item2['to_be_member'] == self.person_id and len(pro_fil) != 0:
                             print(f"Project ID : {item2['ProjectID']} ({pro_fil[0]['Title']})")
                     print("If you don't want to join any project, enter(0)")
-                    ans = int(input('Please enter project ID which you want to join: '))
+                    ans = input('Please enter project ID which you want to join: ')
                     is_exist = False
                     for project in projects.table:
                         if ans == project['ProjectID']:
@@ -106,13 +107,15 @@ class Student:
                         for item in logins.table:
                             if item['role'] == 'student':
                                 logins.update('ID', self.person_id, {'role': 'member'})
+                        persons.update('ID', self.person_id, {'type': 'member'})
                         print('***Please log-out(0) and log-in again!***\n')
 
-                    elif ans != 0:
+                    else:
                         print('Invalid Project ID!')
 
             elif option == 2:
                 title = input('Please enter title of the project: ')
+                persons.update('ID', self.person_id, {'type': 'lead'})
                 for item in logins.table:
                     if item['role'] == 'student':
                         logins.update('ID', self.person_id, {'role': 'lead'})
@@ -208,17 +211,17 @@ class Student:
                         if ans_ti == 'y':
                             title = input("Please write your project's title: ")
                             i['Title'] = title
-                            print(f"New title {title}!")
+                            print(f"New title! {title}")
                         ans_de = input("Do you want to change project's details(y/n)? ")
                         if ans_de == 'y':
                             details = input("Please write your project's details: ")
                             i['Detail'] = details
-                            print(f"New details {details}!")
+                            print(f"New details! {details}")
                 elif option == 4:
                     print(f"---Project's status: {i['Status']}---")
                     if i['Status'] != 'Completed' and i['Status'] != 'Delete' and i['Status'] != 'Approve':
-                        submit = input("Do you want to submit the project(y/n)? ")
                         print(f"WARNING! If you 'submit' the project, you can't change any details later.")
+                        submit = input("Do you want to submit the project(y/n)? ")
                         if submit == 'y' and i['Advisor'] != 'Waiting':
                             i['Status'] = 'Submit'
                             print("You have already submitted, waiting for faculties to approve.")
@@ -317,6 +320,7 @@ class Faculty:
         print('---Role : Faculty---')
         logins = my_DB.search('login')
         projects = my_DB.search('project')
+        persons = my_DB.search('persons')
         advisor_pending = my_DB.search('Advisor_pending_request')
         while True:
             option = self.option_faculty()
@@ -325,16 +329,23 @@ class Faculty:
                 for k in range(len(eva_pro)):
                     print(f"Project ID: {eva_pro[k]['ProjectID']} ({eva_pro[k]['Title']})")
                 if len(eva_pro) != 0:
-                    eva_id = int(input("Please enter project ID which you want to evaluate: "))
+                    print("If you don't want to join any project, enter(0)")
+                    eva_id = input("Please enter project ID which you want to evaluate: ")
                     real = projects.filter(lambda x: x['ProjectID'] == eva_id).table
-                    lead_name = logins.filter(lambda x: x['ID'] == real[0]['Lead']).table
-                    print(f"Leader: {lead_name[0]['username']}, Details: {real[0]['Detail']}")
-                    approve = input("Do you want to approve this project?(y/n) ")
-                    if approve == 'y':
-                        print('You have approved this project already.')
-                        real[0]['CountApprove'] += 1
-                        if real[0]['CountApprove'] >= 2:
-                            real[0]['Status'] = 'Approve'
+                    if len(real) != 0:
+                        lead_name = logins.filter(lambda x: x['ID'] == real[0]['Lead']).table
+                        print(f"Leader: {lead_name[0]['username']}, Details: {real[0]['Detail']}")
+                        approve = input("Do you want to approve this project?(y/n) ")
+                        if approve == 'y':
+                            number_count = int(real[0]['CountApprove'])
+                            number_count += 1
+                            if number_count >= 2:
+                                real[0]['Status'] = 'Approve'
+                            real[0]['CountApprove'] = number_count
+                            print('Approved this project successfully.')
+
+                else:
+                    print('No project for evaluating!')
 
             elif option == 2:
                 if len(advisor_pending.table) == 0 or len(projects.filter(lambda x: x['Advisor'] == 'Waiting').table) == 0:
@@ -347,7 +358,8 @@ class Faculty:
                                                             and x['Advisor'] == 'Waiting').table
                         if item2['to_be_advisor'] == self.person_id and len(pro_fil) != 0:
                             print(f"Project ID: {item2['ProjectID']} ({pro_fil[0]['Title']})")
-                    ans = int(input('Please enter project ID which you want to supervise: '))
+                    print("If you don't want to supervise any project, enter(0)")
+                    ans = input('Please enter project ID which you want to supervise: ')
                     is_exist = False
                     for project in projects.table:
                         if ans == project['ProjectID']:
@@ -372,10 +384,13 @@ class Faculty:
                         for item in logins.table:
                             if item['role'] == 'faculty':
                                 logins.update('ID', self.person_id, {'role': 'advisor'})
+                        persons.update('ID', self.person_id, {'type': 'advisor'})
+
                         print('Please log-out(0) and log-in again!\n')
 
                     else:
-                        print('Invalid Project ID')
+                        print('Invalid Project ID!')
+
             elif option == 0:
                 for_login()
 
@@ -396,6 +411,7 @@ class Faculty:
         print('---Role : Advisor---')
         logins = my_DB.search('login')
         projects = my_DB.search('project')
+        persons = my_DB.search('persons')
         for i in projects.table:
             if i['Advisor'] == self.person_id:
                 print(f"Project's title: {i['Title']}")
@@ -406,20 +422,20 @@ class Faculty:
                 for k in range(len(eva_pro)):
                     print(f"Project ID: {eva_pro[k]['ProjectID']} ({eva_pro[k]['Title']})")
                 if len(eva_pro) != 0:
-                    eva_id = int(input("Please enter project ID which you want to evaluate: "))
+                    eva_id = input("Please enter project ID which you want to evaluate: ")
                     real = projects.filter(lambda x: x['ProjectID'] == eva_id).table
-                    lead_name = logins.filter(lambda x: x['ID'] == real[0]['Lead']).table
-                    print(f"Leader: {lead_name[0]['username']}, Details: {real[0]['Detail']}")
-                    approve = input("Do you want to approve this project?(y/n) ")
-                    if approve == 'y':
-                        print('You have approved this project already.')
-                        real[0]['CountApprove'] += 1
-                        if real[0]['CountApprove'] >= 2:
-                            real[0]['Status'] = 'Approve'
+                    # if len(real) != 0:
+                    #     lead_name = logins.filter(lambda x: x['ID'] == real[0]['Lead']).table
+                    #     print(f"Leader: {lead_name[0]['username']}, Details: {real[0]['Detail']}")
+                    #     approve = input("Do you want to approve this project?(y/n) ")
+                    #     if approve == 'y':
+                    #         print('You have approved this project already.')
+                    #         real[0]['CountApprove'] += 1
+                    #         if real[0]['CountApprove'] >= 2:
+                    #             real[0]['Status'] = 'Approve'
 
             elif options == 2:
-                for check_pro in projects.filter(
-                        lambda x: (x['Status'] == 'Pending members' or x['Status'] == 'Still in progress') and x['Advisor'] == self.person_id).table:
+                for check_pro in projects.filter(lambda x: x['Advisor'] == self.person_id).table:
                     print(f"Project ID: {check_pro['ProjectID']} ({check_pro['Title']})")
                     lead_name = logins.filter(lambda x: x['ID'] == check_pro['Lead']).table
                     print(f"Leader: {lead_name[0]['username']}")
@@ -427,10 +443,11 @@ class Faculty:
                     for m in range(len(mem_name)):
                         print(f"Member{m + 1}: {mem_name[m]['username']}")
                     print(f"Detail: {check_pro['Detail']}")
-                comment = input("Do you want to add comments?(y/n) ")
-                if comment == 'y':
-                    comment_de = input("Please write the comment. ")
-                    projects.update('Advisor', self.person_id, {'Comment': comment_de})
+                    if check_pro['Status'] != 'Submit' and check_pro['Status'] != 'Approve' and check_pro['Status'] != 'Completed':
+                        comment = input("Do you want to add comments?(y/n) ")
+                        if comment == 'y':
+                            comment_de = input("Please write the comment. ")
+                            projects.update('Advisor', self.person_id, {'Comment': comment_de})
 
             elif options == 3:
                 for j in projects.filter(lambda x: x['Advisor'] == self.person_id).table:
@@ -441,6 +458,8 @@ class Faculty:
                             print("The project is completed!")
                             projects.update('Advisor', self.person_id, {'Status': 'Completed'})
                             logins.update('ID', self.person_id, {'role': 'faculty'})
+                            persons.update('ID', self.person_id, {'type': 'faculty'})
+
 
             elif options == 0:
                 for_login()
@@ -482,8 +501,11 @@ class Admin:
                     delete_adv = logins.filter(lambda x: x['ID'] == delete_pro[i]['Advisor']).table
                     for element in delete_element:
                         logins.update("ID", element['ID'], {'role': 'student'})
+                        persons.update("ID", element['ID'], {'type': 'student'})
                     if len(delete_adv) > 0:
                         logins.update("ID", delete_adv[0]['ID'], {'role': 'faculty'})
+                        persons.update("ID", delete_adv[0]['ID'], {'type': 'faculty'})
+
                     print(f"You have already deleted project ID: {delete_pro[i]['ProjectID']}")
             elif options == 2:
                 fname = input("First name: ")
