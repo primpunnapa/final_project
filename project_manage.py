@@ -77,6 +77,7 @@ class Student:
                                                             and x['ProjectID'] == item2['ProjectID']).table
                         if item2['to_be_member'] == self.person_id and len(pro_fil) != 0:
                             print(f"Project ID : {item2['ProjectID']} ({pro_fil[0]['Title']})")
+                    print("If you don't want to join any project, enter(0)")
                     ans = int(input('Please enter project ID which you want to join: '))
                     is_exist = False
                     for project in projects.table:
@@ -107,7 +108,7 @@ class Student:
                                 logins.update('ID', self.person_id, {'role': 'member'})
                         print('***Please log-out(0) and log-in again!***\n')
 
-                    else:
+                    elif ans != 0:
                         print('Invalid Project ID!')
 
             elif option == 2:
@@ -215,7 +216,7 @@ class Student:
                             print(f"New details {details}!")
                 elif option == 4:
                     print(f"---Project's status: {i['Status']}---")
-                    if i['Status'] != 'Completed' and i['Status'] != 'Delete':
+                    if i['Status'] != 'Completed' and i['Status'] != 'Delete' and i['Status'] != 'Approve':
                         submit = input("Do you want to submit the project(y/n)? ")
                         print(f"WARNING! If you 'submit' the project, you can't change any details later.")
                         if submit == 'y' and i['Advisor'] != 'Waiting':
@@ -434,10 +435,12 @@ class Faculty:
             elif options == 3:
                 for j in projects.filter(lambda x: x['Advisor'] == self.person_id).table:
                     print(f"Status: {j['Status']}")
-                    complete = input("Do you want to change project's status to be completed?(y/n) ")
-                    if complete == 'y':
-                        print("The project is completed!")
-                        projects.update('Advisor', self.person_id, {'Status': 'Completed'})
+                    if j['Status'] == 'Approve':
+                        complete = input("Do you want to change project's status to be completed?(y/n) ")
+                        if complete == 'y':
+                            print("The project is completed!")
+                            projects.update('Advisor', self.person_id, {'Status': 'Completed'})
+                            logins.update('ID', self.person_id, {'role': 'faculty'})
 
             elif options == 0:
                 for_login()
@@ -482,7 +485,6 @@ class Admin:
                     if len(delete_adv) > 0:
                         logins.update("ID", delete_adv[0]['ID'], {'role': 'faculty'})
                     print(f"You have already deleted project ID: {delete_pro[i]['ProjectID']}")
-                    # create_file('project_table', projects.table)
             elif options == 2:
                 fname = input("First name: ")
                 lname = input("Last name: ")
@@ -514,7 +516,8 @@ class Admin:
                 update_file('Member_pending_request', member_pending.table)
                 update_file('persons', persons.table)
                 update_file('login', logins.table)
-                # sys.exit()
+                print("***ALL CSV FILE ARE ALREADY UPDATED***")
+                sys.exit()
 
             elif options == 0:
                 for_login()
