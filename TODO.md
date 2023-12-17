@@ -54,7 +54,7 @@
   
 **Advisor**
   - Evaluate project
-    - the advisors will see project ID from many projects which is submitted and choose project ID which they want to evaluate.
+    - The advisors will see project ID from many projects which is submitted and choose project ID which they want to evaluate.
     - Exception: the advisors can't evaluate the project which they supervise of.
     - When they chose the project to evaluate, they will see leader's username and project's details
     - They can approve the project
@@ -83,4 +83,3 @@
       - Member_pending_request.csv
       - project_table.csv
   - Log out: Back to log-in process
-
