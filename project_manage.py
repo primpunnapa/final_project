@@ -10,6 +10,7 @@ current_date = current_time.date()
 my_DB = Database()
 
 
+# Using data from csv file
 def initializing():
     person = read_csv('persons.csv')
     logins = read_csv('login.csv')
