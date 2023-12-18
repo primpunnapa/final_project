@@ -29,26 +29,26 @@
     - For more details of menu, you can read in TODO.md
     - In case of 'Admin menu': it has 'exit' to end the program and update csv file
 
-| Role   | Action                                                                                                | Method         | Class   | Completion percentage |
-|--------|-------------------------------------------------------------------------------------------------------|----------------|---------|-----------------------|
-| Admin  | Delete project (by make the role of each person to original role)                                     | update         | Admin   | 90                    |
-| Admin  | Add person (Append row into login table and person table                                              | -              | Admin   | 95                    |
-| Admin  | Exit and update csv file                                                                              | update_file    | Admin   | 95                    |
+| Role    | Action                                                                                                | Method         | Class   | Completion percentage |
+|---------|-------------------------------------------------------------------------------------------------------|----------------|---------|-----------------------|
+| Admin   | Delete project (by make the role of each person to original role)                                     | update         | Admin   | 90                    |
+| Admin   | Add person (Append row into login table and person table                                              | -              | Admin   | 95                    |
+| Admin   | Exit and update csv file                                                                              | update_file    | Admin   | 95                    |
 | student | invitation request to become members                                                                  | filter         | Student | 95                    |
 | student | create project (and send the invitation request to students , facultise)                              | update         | Student | 85                    |
-| Lead   | See the students to whom the requests to be member have been sent to and their responses              | filter         | Student | 80                    |
-| Lead   | See the faculties to whom the requests to be advisor have been sent to be advisor and their responses | filter         | Student | 80                    |
-| Lead   | See and modify project information                                                                    | -              | Student | 80                    |
-| Lead   | See project status                                                                                    | -              | Student | 80                    |
-| Lead   | Delete the project                                                                                    | -              | Student | 80                    |
-| Members| See the students to whom the requests to be member have been sent to and their responses              | filter         | Student | 80                    |
-| Members   | See the faculties to whom the requests to be advisor have been sent to be advisor and their responses | filter         | Student | 80                    |         |         |                       |
+| Lead    | See the students to whom the requests to be member have been sent to and their responses              | filter         | Student | 80                    |
+| Lead    | See the faculties to whom the requests to be advisor have been sent to be advisor and their responses | filter         | Student | 80                    |
+| Lead    | See and modify project information                                                                    | -              | Student | 80                    |
+| Lead    | See project status                                                                                    | -              | Student | 80                    |
+| Lead    | Delete the project                                                                                    | -              | Student | 80                    |
+| Members | See the students to whom the requests to be member have been sent to and their responses              | filter         | Student | 80                    |
+| Members | See the faculties to whom the requests to be advisor have been sent to be advisor and their responses | filter         | Student | 80                    |         |         |                       |
 | Members | See and modify project information(only details)                                                      | -              | Student | 80                    |
-| Members   | See project status                                                                                    | -              | Student | 80                    |
-| Faculty   | Evaluate project                                                                                      | filter         | Faculty | 80                    |
-| Faculty   | See request to be an advisor of the project                                                           | filter, update | Faculty | 80                    |
-| Advisor   | Evaluate project                                                                                      | filter         | Faculty | 80                    |
-| Advisor   | Check the project details which they supervise of.                                                    | filter         | Faculty | 80                    |
-| Advisor   | Add comment                                                                                           | update         | Faculty | 80                    |
-| Advisor   | Change status to be completed                                                                         | update         | Faculty | 80                    |
+| Members | See project status                                                                                    | -              | Student | 80                    |
+| Faculty | Evaluate project                                                                                      | filter         | Faculty | 80                    |
+| Faculty | See request to be an advisor of the project                                                           | filter, update | Faculty | 80                    |
+| Advisor | Evaluate project                                                                                      | filter         | Faculty | 80                    |
+| Advisor | Check the project details which they supervise of.                                                    | filter         | Faculty | 80                    |
+| Advisor | Add comment                                                                                           | update         | Faculty | 80                    |
+| Advisor | Change status to be completed                                                                         | update         | Faculty | 80                    |
 
