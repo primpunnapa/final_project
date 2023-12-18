@@ -25,7 +25,7 @@
   - See project status
     - the leader can submit the project. 
   - Delete the project
-    - If the leader decided to delete the project, admin will see 'delete' status and delete it
+    - If the leader decides to delete the project, admin will see 'delete' status and delete it
   - Log out: Back to log-in process
 
 **Members**
@@ -65,7 +65,7 @@
         - An advisor can add comments
     - Check the project status which they supervise of.
       - See project status
-      - If status is 'Approved', the advisor can change project's status to be 'Completed'
+      - If status is 'Approve', the advisor can change project's status to be 'Completed'
       - After the status is changed to be 'Completed', the advisor will come back to be normal faculty and can supervise other projects
   - Log out: Back to log-in process
 
